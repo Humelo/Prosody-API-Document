@@ -1,3 +1,5 @@
+// Archiving code (구버전)
+
 function GenerateVoice(signature) {
 	const xhr = new XMLHttpRequest();
 	const audio = new Audio();

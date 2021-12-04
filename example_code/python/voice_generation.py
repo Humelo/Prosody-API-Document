@@ -1,3 +1,5 @@
+# Archiving code (구버전)
+
 import requests
 
 # https://dashboard.prosody-tts.com/ 에서 발급받은 API_KEY 입니다.
