@@ -1,42 +1,14 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5758472.svg)](https://doi.org/10.5281/zenodo.5758472)
 # Prosody API Document
 ## API 사용법
 1. APIKey 발급
     - https://dashboard.prosody-tts.com/ 에 접속하여 오른쪽 상단에 있는 *API KEY 발급* 버튼을 눌러 *APIKey* 를 발급받아주세요. (APIKey는 모든 API의 헤더에 담아 사용하게 됩니다.)
 2. 음성 생성
     <details>
-    <summary>사용가능 Actor 목록 불러오기</summary>
-
-    - API URL: <https://api.prosody-tts.com/api/business/voice/all-list/>
-    - Method: GET
-    ### Headers
-
-    | Key | Value |
-    | --- | :---: |
-    | `Authorization` | `Api-Key {api_key}` |
-
-    ### Response
-
-    status code: 200
-    
-    | Key | Descrption |
-    | --- | :---: |
-    | `success` | `Boolean` |
-    | `data.voices` | `List of voice object` |
-    | `voice.uid` | `String` |
-    | `voice.name` | `String` |
-    | `voice.age` | `Int` |
-    | `voice.gender` | `String` |
-    | `voice.language` | `String` |
-    | `voice.voice_type` | `Int` |
-    | `voice.emotions` | `List of available emotions (String)` |
-
-    </details>
-    <details>
-    <summary>음성 합성</summary>
+    <summary>음성 데이터 생성</summary>
 
     - API URL: <https://api.prosody-tts.com/api/ttsapi/voice-generation/>
     - Method: POST
-    - Response의 pre_signed_url을 통해 합성된 음성을 다운로드 받을 수 있음
     ### Headers
 
     | Key | Value |
@@ -50,14 +22,12 @@
     | --- | :---: | :---: |
     | `text` | `String` | `true` |
     | `actor` | `String` | `true` |
-    | `language` | `String` | `false`<br>`(kor | en-US)` |
-    | `sex` | `String` | `false`<br>`(m | f)` |
+    | `language` | `String` | `false`<br>`('kor' | 'en-US')` |
+    | `sex` | `String` | `false`<br>`('m' | 'f')` |
     | `dur` | `String` | `false` |
     | `pitch` | `String` | `false` |
     | `overall_pitch` | `String` | `false`<br>`(-20 ~ 20)` |
     | `overall_speed` | `String` | `false`<br>`(0.8 ~ 1.2)` |
-    | `file_format` | `String` | `false`<br>`(default: mp3 | wav, pcm)` |
-    | `sample_rate` | `Int` | `false`<br>`(deafault: 24000 | 8000, 16000)` |
 
     ### Response
 
@@ -72,25 +42,51 @@
     | `data.emotion` | `String` |
     | `data.dur` | `String` |
     | `data.pitch` | `String` |
-    | `data.voice` | `Voice_object` |
     | `data.language` | `String` |
     | `data.sex` | `String` |
     | `data.overall_pitch` | `String` |
     | `data.overall_speed` | `String` |
-    | `data.pre_signed_url` | `String` |
 
+    </details>
+    <details>
+    <summary>음성 추출</summary>
+
+    - API URL: https://api.prosody-tts.com/api/ttsapi/voice-generation/{signature}/generate/
+    - Method: GET
+    ### Headers
+
+    | Key | Value |
+    | --- | :---: |
+    | `Authorization` | `Api-Key {api_key}` |
+
+    ### Response
+
+    status code: 200
+
+    #### Response Headers
+
+    | Key | Type |
+    | --- | :---: |
+    | `Voice-Token` | `String` |
+    | `Voice-Duration` | `String` |
+    | `Voice-Pitch` | `String` |
+
+    Response 로 wav 파일이 옵니다.
     </details>
 
 ## 사용 가능한 Actor List
 <details>
-<summary>감정 조절이 가능한 actor들 (기본)</summary>
+<summary>감정 조절이 가능한 actor</summary>
 
-- 감정: (Angry: 화남, Calm: 차분, Disappointed: 실망, Excited: 흥분, Fear: 공포, Happy: 행복, Nuetral: 중립, Sleepy: 졸림, Sad: 슬픔)
+- 감정: (A: 화남, C: 차분, D: 실망, E: 흥분, F: 공포, H: 행복, N: 중립, L: 졸림, S: 슬픔)
+- Katelyn_(A,C,D,E,F,H,N,L,S) (여성, 20대, 영어)
+- Sam_(A,C,D,E,F,H,N,L,S) (남성, 20대, 영어)
+- Ju-yeong_(A,C,D,E,F,H,N,L,S) (여성, 20대, 한국어)
+- Byeong-chan_(A,C,D,E,F,H,N,L,S) (여성, 20대, 한국어)
+</details>
+<details>
+<summary>감정 조절이 불가능한 actor</summary>
 
-- Katelyn (여성, 20대, 영어)
-- Sam (남성, 20대, 영어)
-- Ju-yeong (여성, 20대, 한국어)
-- Byeong-chan (여성, 20대, 한국어)
 - Min-jeong
 - Eun-jeong
 - Yu-jeong
